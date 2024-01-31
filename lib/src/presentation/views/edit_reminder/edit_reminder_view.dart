@@ -11,7 +11,7 @@ class EditReminderView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListenableProvider(
       create: (_) => EditReminderViewModel(),
-      child: Consumer2<CalenderViewModel, EditReminderViewModel>(
+      child: Consumer2<CalendarViewModel, EditReminderViewModel>(
           builder: (context, calenderViewModel, editReminderViewModel, _) {
         return const Center(
           child: Text('edit/add reminder'),

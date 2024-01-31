@@ -1,3 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:codelitt_calendar/src/presentation/presentation.dart';
 
-class CalenderViewModel extends ChangeNotifier {}
+class CalendarViewModel extends BaseViewModel {
+  setCurrentMonth() async {
+    await Future.delayed(const Duration(seconds: 3));
+    setState(ViewModelState.ready);
+  }
+}

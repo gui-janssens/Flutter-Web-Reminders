@@ -11,7 +11,7 @@ class RemindersListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListenableProvider(
       create: (_) => RemindersListViewModel(),
-      child: Consumer2<CalenderViewModel, RemindersListViewModel>(
+      child: Consumer2<CalendarViewModel, RemindersListViewModel>(
           builder: (context, calenderViewModel, remindersListViewModel, _) {
         return const Center(
           child: Text('Reminders list'),

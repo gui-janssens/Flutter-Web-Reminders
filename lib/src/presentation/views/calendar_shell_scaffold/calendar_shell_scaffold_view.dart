@@ -1,4 +1,5 @@
 import 'package:codelitt_calendar/src/presentation/presentation.dart';
+import 'package:codelitt_calendar/src/presentation/views/calendar_shell_scaffold/widgets/calendar.dart';
 import 'package:codelitt_calendar/src/utils/utlls.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,8 +14,13 @@ class CalenderShellScaffoldView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListenableProvider(
-      create: (_) => CalenderViewModel(),
-      child: Consumer<CalenderViewModel>(builder: (context, viewModel, _) {
+      create: (_) {
+        final viewModel = CalendarViewModel();
+        viewModel.setCurrentMonth();
+
+        return viewModel;
+      },
+      child: Consumer<CalendarViewModel>(builder: (context, viewModel, _) {
         return Scaffold(
           backgroundColor: AppColors.background,
           body: Scrollbar(
@@ -48,7 +54,8 @@ class CalenderShellScaffoldView extends StatelessWidget {
                       Container(
                         width: 1120 - 450,
                         padding: const EdgeInsets.all(40),
-                        child: child,
+                        child:
+                            viewModel.state.isLoading ? const Center() : child,
                       ),
                       Container(
                         width: 450,
@@ -66,6 +73,7 @@ class CalenderShellScaffoldView extends StatelessWidget {
                             end: Alignment.bottomCenter,
                           ),
                         ),
+                        child: Calendar(viewModel),
                       )
                     ],
                   ),
