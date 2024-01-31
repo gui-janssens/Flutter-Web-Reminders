@@ -3,14 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CalenderShellScaffoldView extends StatelessWidget {
-  const CalenderShellScaffoldView({super.key});
+  final Widget child;
+  const CalenderShellScaffoldView({
+    super.key,
+    required this.child,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListenableProvider(
       create: (_) => CalenderViewModel(),
-      child: Consumer<CalenderViewModel>(builder: (context, viewModel, child) {
-        return const Placeholder();
+      child: Consumer<CalenderViewModel>(builder: (context, viewModel, _) {
+        return Scaffold(
+          body: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  color: Colors.red,
+                ),
+              ),
+              Expanded(child: child),
+            ],
+          ),
+        );
       }),
     );
   }
