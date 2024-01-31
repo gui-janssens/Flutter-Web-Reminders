@@ -1,5 +1,6 @@
 import 'package:codelitt_calendar/src/domain/domain.dart';
 import 'package:codelitt_calendar/src/presentation/presentation.dart';
+import 'package:codelitt_calendar/src/utils/utlls.dart';
 
 class RemindersViewModel extends BaseViewModel {
   final GetRemindersUseCase getRemindersUseCase;
@@ -7,6 +8,7 @@ class RemindersViewModel extends BaseViewModel {
   RemindersViewModel(this.getRemindersUseCase);
 
   List<Reminder> allReminders = [];
+  List<Reminder> selectedDateReminders = [];
 
   getReminders() async {
     final result = await getRemindersUseCase.call();
@@ -16,5 +18,13 @@ class RemindersViewModel extends BaseViewModel {
     }
 
     setState(ViewModelState.ready);
+  }
+
+  setSelectedDateReminders(DateTime selectedDate) {
+    selectedDateReminders = [
+      ...allReminders
+          .where((reminder) => reminder.date.isSameDate(selectedDate))
+    ];
+    notifyListeners();
   }
 }
