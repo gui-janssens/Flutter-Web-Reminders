@@ -17,6 +17,6 @@ class ReminderDto {
         title,
         description,
         date,
-        convertHexToColor(color),
+        AppColors.convertHexToColor(color),
       );
 }
