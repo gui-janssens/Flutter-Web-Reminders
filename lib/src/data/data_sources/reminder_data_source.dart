@@ -38,7 +38,7 @@ class ReminderRemoteDataSource {
     return Result.err(response.unwrapErr());
   }
 
-  Future<Result<ReminderModel, AppError>> updateReminder(
+  Future<Result<void, AppError>> updateReminder(
       Map<String, dynamic> payload, String id) async {
     final response = await apiService.patch(
       path: '${EndPoints.reminders}/$id',

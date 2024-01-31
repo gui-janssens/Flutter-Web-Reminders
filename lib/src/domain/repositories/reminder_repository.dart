@@ -7,7 +7,7 @@ abstract class ReminderRepository {
 
   Future<Result<Reminder, AppError>> addReminder(Map<String, dynamic> payload);
 
-  Future<Result<Reminder, AppError>> updateReminder(
+  Future<Result<void, AppError>> updateReminder(
     Map<String, dynamic> payload,
     String id,
   );

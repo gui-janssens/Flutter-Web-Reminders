@@ -35,16 +35,14 @@ class ReminderRepositoryImpl implements ReminderRepository {
   }
 
   @override
-  Future<Result<Reminder, AppError>> updateReminder(
+  Future<Result<void, AppError>> updateReminder(
     Map<String, dynamic> payload,
     String id,
   ) async {
     final result = await remoteDataSource.updateReminder(payload, id);
 
     if (result.isOk()) {
-      final reminderModel = result.unwrap();
-      final reminder = reminderModel.toEntity();
-      return Result.ok(reminder);
+      return const Result.ok(true);
     }
 
     return Result.err(result.unwrapErr());

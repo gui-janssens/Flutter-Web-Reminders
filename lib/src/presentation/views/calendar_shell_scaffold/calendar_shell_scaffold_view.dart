@@ -1,3 +1,5 @@
+import 'package:codelitt_calendar/src/core/locator.dart';
+import 'package:codelitt_calendar/src/domain/domain.dart';
 import 'package:codelitt_calendar/src/presentation/presentation.dart';
 import 'package:codelitt_calendar/src/presentation/views/calendar_shell_scaffold/widgets/calendar.dart';
 import 'package:codelitt_calendar/src/utils/utlls.dart';
@@ -15,9 +17,8 @@ class CalenderShellScaffoldView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListenableProvider(
       create: (_) {
-        final viewModel = CalendarViewModel();
-        viewModel.populateCalendarWithCurrentDate();
-
+        final viewModel = CalendarViewModel(getIt<GetRemindersUseCase>());
+        viewModel.initializeData();
         return viewModel;
       },
       child: Consumer<CalendarViewModel>(builder: (context, viewModel, _) {

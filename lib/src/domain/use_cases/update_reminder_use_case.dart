@@ -7,7 +7,7 @@ class UpdateReminderUseCase {
 
   UpdateReminderUseCase(this.repository);
 
-  Future<Result<Reminder, AppError>> call(
+  Future<Result<void, AppError>> call(
       Map<String, dynamic> payload, String id) async {
     return await repository.updateReminder(payload, id);
   }
