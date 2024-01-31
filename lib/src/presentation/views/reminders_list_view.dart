@@ -13,8 +13,8 @@ class RemindersListView extends StatelessWidget {
       create: (_) => RemindersListViewModel(),
       child: Consumer2<CalenderViewModel, RemindersListViewModel>(
           builder: (context, calenderViewModel, remindersListViewModel, _) {
-        return Container(
-          color: Colors.blue,
+        return const Center(
+          child: Text('Reminders list'),
         );
       }),
     );

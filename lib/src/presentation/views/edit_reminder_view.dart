@@ -13,8 +13,8 @@ class EditReminderView extends StatelessWidget {
       create: (_) => EditReminderViewModel(),
       child: Consumer2<CalenderViewModel, EditReminderViewModel>(
           builder: (context, calenderViewModel, editReminderViewModel, _) {
-        return Container(
-          color: Colors.green,
+        return const Center(
+          child: Text('edit/add reminder'),
         );
       }),
     );
