@@ -16,7 +16,7 @@ class CalenderShellScaffoldView extends StatelessWidget {
     return ListenableProvider(
       create: (_) {
         final viewModel = CalendarViewModel();
-        viewModel.setCurrentMonth();
+        viewModel.populateCalendarWithCurrentMonth();
 
         return viewModel;
       },

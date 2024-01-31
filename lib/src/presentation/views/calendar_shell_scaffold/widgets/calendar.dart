@@ -22,8 +22,12 @@ class _CalendarState extends State<Calendar> {
       );
     }
 
-    return const Center(
-      child: Text('calendar'),
+    return const Padding(
+      padding: EdgeInsets.all(40),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [],
+      ),
     );
   }
 }
