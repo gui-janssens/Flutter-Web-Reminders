@@ -11,16 +11,10 @@ class CalendarViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  populateCalendarWithCurrentMonth() async {
+  populateCalendarWithCurrentDate() async {
     selectedDate = DateTime.now();
-    final daysInCurrentMonth = selectedDate.getDaysInMonth();
-    final weekdayOfFirstDay = selectedDate.getWeekdayOfFirstDay();
 
-    selectedDate.populateGridWithDaysInTheMonth(
-      daysInCurrentMonth,
-      weekdayOfFirstDay,
-      monthGrid,
-    );
+    selectedDate.populateGridWithDaysInTheMonth(monthGrid);
 
     setState(ViewModelState.ready);
   }
@@ -28,14 +22,7 @@ class CalendarViewModel extends BaseViewModel {
   populateCalendar() {
     monthGrid.clear();
 
-    final daysInCurrentMonth = selectedDate.getDaysInMonth();
-    final weekdayOfFirstDay = selectedDate.getWeekdayOfFirstDay();
-
-    selectedDate.populateGridWithDaysInTheMonth(
-      daysInCurrentMonth,
-      weekdayOfFirstDay,
-      monthGrid,
-    );
+    selectedDate.populateGridWithDaysInTheMonth(monthGrid);
 
     notifyListeners();
   }

@@ -18,10 +18,10 @@ extension AppDateUtils on DateTime {
   }
 
   populateGridWithDaysInTheMonth(
-    int daysInCurrentMonth,
-    int weekdayOfFirstDay,
     List<List<int?>> monthGrid,
   ) {
+    final daysInCurrentMonth = getDaysInMonth();
+    final weekdayOfFirstDay = getWeekdayOfFirstDay();
     // calculate the number of days to prepend for the grid (nulls before the first day)
     // example: weekdayOfFirstDay == 1 (Monday) => prepend will become 1, and so on.
     int prependCount = weekdayOfFirstDay % 7;
