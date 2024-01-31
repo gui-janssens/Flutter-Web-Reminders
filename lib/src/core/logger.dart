@@ -1,12 +1,7 @@
-// ignore_for_file: depend_on_referenced_packages
-
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
 abstract class AppLogger {
-  @protected
-  late Logger _logger;
-
   void d(dynamic message);
   void t(dynamic message);
   void i(dynamic message);
@@ -15,48 +10,39 @@ abstract class AppLogger {
   void f(dynamic message);
 }
 
-// Singleton class to use the same logger instance across the project
 class AppLoggerImpl extends AppLogger {
-  static AppLoggerImpl? _instance;
+  late Logger _logger;
 
+  // Private constructor
   AppLoggerImpl._internal() {
-    // instantiating the logger as a singleton
     _logger = Logger(printer: PrettyPrinter(methodCount: 0));
-    _instance = this;
+    debugPrint('AppLoggerImpl Creation');
   }
 
-  static AppLoggerImpl get instance {
+  // Static instance
+  static AppLoggerImpl? _instance;
+
+  // Factory constructor to access the instance
+  factory AppLoggerImpl() {
     _instance ??= AppLoggerImpl._internal();
     return _instance!;
   }
 
   @override
-  void d(message) {
-    _logger.d(message);
-  }
+  void d(message) => _logger.d(message);
 
   @override
-  void e(message) {
-    _logger.e(message);
-  }
+  void e(message) => _logger.e(message);
 
   @override
-  void f(message) {
-    _logger.f(message);
-  }
+  void f(message) => _logger.f(message);
 
   @override
-  void i(message) {
-    _logger.i(message);
-  }
+  void i(message) => _logger.i(message);
 
   @override
-  void t(message) {
-    _logger.t(message);
-  }
+  void t(message) => _logger.t(message);
 
   @override
-  void w(message) {
-    _logger.w(message);
-  }
+  void w(message) => _logger.w(message);
 }
