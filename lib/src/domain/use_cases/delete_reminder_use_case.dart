@@ -2,12 +2,12 @@ import 'package:codelitt_calendar/src/domain/domain.dart';
 import 'package:codelitt_calendar/src/utils/utlls.dart';
 import 'package:oxidized/oxidized.dart';
 
-class AddReminderUseCase {
+class DeleteReminderUseCase {
   final ReminderRepository repository;
 
-  AddReminderUseCase(this.repository);
+  DeleteReminderUseCase(this.repository);
 
-  Future<Result<Reminder, AppError>> call(Map<String, dynamic> payload) async {
-    return await repository.addReminder(payload);
+  Future<Result<void, AppError>> call(String id) async {
+    return await repository.deleteReminder(id);
   }
 }
