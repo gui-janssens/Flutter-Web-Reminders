@@ -9,14 +9,11 @@ class EditReminderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableProvider(
-      create: (_) => EditReminderViewModel(),
-      child: Consumer2<CalendarViewModel, EditReminderViewModel>(
-          builder: (context, calenderViewModel, editReminderViewModel, _) {
-        return const Center(
-          child: Text('edit/add reminder'),
-        );
-      }),
-    );
+    return Consumer<RemindersViewModel>(
+        builder: (context, remindersViewModel, _) {
+      return const Center(
+        child: Text('edit/add reminder'),
+      );
+    });
   }
 }

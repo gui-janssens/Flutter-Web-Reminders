@@ -48,10 +48,11 @@ class ApiService {
     Map<String, dynamic>? queryParams,
   }) async {
     // enforcing the "getReminders" always returns an empty array.
+    final uri = buildUri(path, queryParams);
+    _logger.d('GET @:\n$uri');
     return const Result.ok([]);
 
     // try {
-    //   final uri = buildUri(path, queryParams);
     //   final response = await _client.get(uri, headers: baseHeaders);
 
     //   _logger.d('GET @:\n$uri');
@@ -75,10 +76,11 @@ class ApiService {
     required Map<String, dynamic> payload,
   }) async {
     // simulating the API creating a new reminder and adding an Id.
+    final uri = buildUri(path);
     payload['id'] = '${DateTime.now().millisecondsSinceEpoch}';
+    _logger.d('POST @:\n$uri');
     return Result.ok(payload);
 
-    // final uri = buildUri(path);
     // try {
     //   var response = await _client.post(
     //     uri,
@@ -105,9 +107,10 @@ class ApiService {
     required String path,
   }) async {
     // simulating a success deletion.
+    final uri = buildUri(path);
+    _logger.d('DELETE @:\n$uri');
     return const Result.ok(true);
 
-    // final uri = buildUri(path);
     // try {
     //   var response = await _client.delete(uri, headers: baseHeaders);
 
@@ -132,9 +135,10 @@ class ApiService {
     Map<String, dynamic>? payload,
   }) async {
     // simulating a successful update.
+    final uri = buildUri(path);
+    _logger.d('PATCH @:\n$uri');
     return const Result.ok(true);
 
-    // final uri = buildUri(path);
     // try {
     //   var response = await _client.patch(
     //     uri,

@@ -15,13 +15,25 @@ class CalenderShellScaffoldView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableProvider(
-      create: (_) {
-        final viewModel = CalendarViewModel(getIt<GetRemindersUseCase>());
-        viewModel.initializeData();
-        return viewModel;
-      },
-      child: Consumer<CalendarViewModel>(builder: (context, viewModel, _) {
+    return MultiProvider(
+      providers: [
+        ListenableProvider(
+          create: (_) {
+            final viewModel = CalendarViewModel();
+            viewModel.populateCalendarWithCurrentDate();
+            return viewModel;
+          },
+        ),
+        ListenableProvider(
+          create: (_) {
+            final viewModel = RemindersViewModel(getIt<GetRemindersUseCase>());
+            viewModel.getReminders();
+            return viewModel;
+          },
+        ),
+      ],
+      child: Consumer2<CalendarViewModel, RemindersViewModel>(
+          builder: (context, calendarViewModel, remindersViewModel, _) {
         return Scaffold(
           backgroundColor: AppColors.background,
           body: Scrollbar(
@@ -55,8 +67,10 @@ class CalenderShellScaffoldView extends StatelessWidget {
                       Container(
                         width: 1120 - 450,
                         padding: const EdgeInsets.all(40),
-                        child:
-                            viewModel.state.isLoading ? const Center() : child,
+                        child: calendarViewModel.state.isLoading ||
+                                remindersViewModel.state.isLoading
+                            ? const Center()
+                            : child,
                       ),
                       Container(
                         width: 450,
@@ -74,7 +88,10 @@ class CalenderShellScaffoldView extends StatelessWidget {
                             end: Alignment.bottomCenter,
                           ),
                         ),
-                        child: Calendar(viewModel),
+                        child: Calendar(
+                          calendarViewModel: calendarViewModel,
+                          allReminders: remindersViewModel.allReminders,
+                        ),
                       )
                     ],
                   ),

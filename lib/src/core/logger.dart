@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:logger/logger.dart';
 
@@ -17,7 +16,6 @@ class AppLoggerImpl extends AppLogger {
   // Private constructor
   AppLoggerImpl._internal() {
     _logger = Logger(printer: PrettyPrinter(methodCount: 0));
-    debugPrint('AppLoggerImpl Creation');
   }
 
   // Static instance

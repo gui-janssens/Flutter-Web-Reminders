@@ -1,3 +1,4 @@
+import 'package:codelitt_calendar/src/domain/domain.dart';
 import 'package:codelitt_calendar/src/presentation/presentation.dart';
 import 'package:codelitt_calendar/src/presentation/views/calendar_shell_scaffold/widgets/month_grid_builder.dart';
 import 'package:codelitt_calendar/src/utils/utlls.dart';
@@ -6,16 +7,21 @@ import 'package:gap/gap.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
 class Calendar extends StatefulWidget {
-  final CalendarViewModel viewModel;
-  const Calendar(this.viewModel, {super.key});
+  final CalendarViewModel calendarViewModel;
+  final List<Reminder> allReminders;
+  const Calendar({
+    super.key,
+    required this.calendarViewModel,
+    required this.allReminders,
+  });
 
   @override
   State<Calendar> createState() => _CalendarState();
 }
 
 class _CalendarState extends State<Calendar> {
-  ViewModelState get state => widget.viewModel.state;
-  CalendarViewModel get viewModel => widget.viewModel;
+  ViewModelState get state => widget.calendarViewModel.state;
+  CalendarViewModel get calendarViewModel => widget.calendarViewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +39,7 @@ class _CalendarState extends State<Calendar> {
         mainAxisSize: MainAxisSize.max,
         children: [
           Text(
-            viewModel.currentCalendarDate.year.toString(),
+            calendarViewModel.currentCalendarDate.year.toString(),
             style: const TextStyle(
               fontSize: 80,
               fontWeight: FontWeight.w800,
@@ -42,7 +48,7 @@ class _CalendarState extends State<Calendar> {
             ),
           ),
           Text(
-            viewModel.currentCalendarDate.getMonthName.name,
+            calendarViewModel.currentCalendarDate.getMonthName.name,
             style: const TextStyle(
               fontSize: 45,
               color: Colors.white,
@@ -56,8 +62,8 @@ class _CalendarState extends State<Calendar> {
             child: Row(
               children: [
                 GestureDetector(
-                  onTap: () => viewModel.setSelectedMonthInCalendar(
-                    viewModel.currentCalendarDate.getPreviousMonth(),
+                  onTap: () => calendarViewModel.setSelectedMonthInCalendar(
+                    calendarViewModel.currentCalendarDate.getPreviousMonth(),
                   ),
                   child: const Icon(
                     Icons.keyboard_arrow_left_outlined,
@@ -71,8 +77,8 @@ class _CalendarState extends State<Calendar> {
                   width: 6,
                 ),
                 GestureDetector(
-                  onTap: () => viewModel.setSelectedMonthInCalendar(
-                      viewModel.currentCalendarDate.getNextMonth()),
+                  onTap: () => calendarViewModel.setSelectedMonthInCalendar(
+                      calendarViewModel.currentCalendarDate.getNextMonth()),
                   child: const Icon(
                     Icons.keyboard_arrow_right_outlined,
                     size: 24,
@@ -84,11 +90,11 @@ class _CalendarState extends State<Calendar> {
           ),
           const Gap(24),
           MonthGridBuilder(
-            currentCalendarDate: viewModel.currentCalendarDate,
-            selectedDate: viewModel.selectedDate,
-            monthGrid: viewModel.monthGrid,
-            onDateTapped: viewModel.setSelectedDate,
-            allReminders: viewModel.allReminders,
+            currentCalendarDate: calendarViewModel.currentCalendarDate,
+            selectedDate: calendarViewModel.selectedDate,
+            monthGrid: calendarViewModel.monthGrid,
+            onDateTapped: calendarViewModel.setSelectedDate,
+            allReminders: widget.allReminders,
           ),
           const Spacer(),
           const Text(

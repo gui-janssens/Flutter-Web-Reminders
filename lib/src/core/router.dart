@@ -1,3 +1,4 @@
+import 'package:codelitt_calendar/src/core/logger.dart';
 import 'package:codelitt_calendar/src/presentation/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +11,10 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 class Router {
   static GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
+    redirect: (context, state) {
+      AppLoggerImpl().i('Navigating to: ${state.fullPath}');
+      return null;
+    },
     routes: [
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
@@ -41,3 +46,6 @@ class Router {
     ),
   );
 }
+
+// Custom NavigatorObserver for logging
+
