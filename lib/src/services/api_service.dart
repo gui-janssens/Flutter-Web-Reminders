@@ -6,15 +6,15 @@ import 'package:http/http.dart';
 import 'package:oxidized/oxidized.dart';
 
 /* 
-For this layer, being the outmost layer in the data layer, 
+For this file, representing the outmost layer in the data layer, 
 some mocking will be necessary in order for the application to work, since there
 is no real remote data source.
 
-For this, the real code for the HTTP verbs will be commented out so the mocking
+For this, the real code for the HTTP verbs implementation will be commented out so the mocking
 can be done.
 
 It is worth mentioning that by implementing Clean Architecture as it has been in this project,
-adding a remote data source would be the only necessary change for the whole thing to work with an API.
+adding a remote data source would be the only necessary change for the whole project to work with remote data.
 */
 
 class ApiService {
@@ -25,7 +25,7 @@ class ApiService {
     _logger = AppLoggerImpl();
   }
 
-  static const String baseUrl = 'my_base_url.com';
+  static const String baseUrl = 'my_authority.com';
 
   final Map<String, String> baseHeaders = {
     'content-type': 'application/json; charset=utf-8',

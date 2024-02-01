@@ -46,6 +46,3 @@ class Router {
     ),
   );
 }
-
-// Custom NavigatorObserver for logging
-

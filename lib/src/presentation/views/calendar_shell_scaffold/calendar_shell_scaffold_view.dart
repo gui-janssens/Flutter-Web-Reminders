@@ -28,6 +28,7 @@ class CalenderShellScaffoldView extends StatelessWidget {
           create: (_) {
             final viewModel = RemindersViewModel(getIt<GetRemindersUseCase>());
             viewModel.getReminders();
+            viewModel.setSelectedDateReminders(DateTime.now());
             return viewModel;
           },
         ),
@@ -90,7 +91,7 @@ class CalenderShellScaffoldView extends StatelessWidget {
                         ),
                         child: Calendar(
                           calendarViewModel: calendarViewModel,
-                          allReminders: remindersViewModel.allReminders,
+                          remindersViewModel: remindersViewModel,
                         ),
                       )
                     ],

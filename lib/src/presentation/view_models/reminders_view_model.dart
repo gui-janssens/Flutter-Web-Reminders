@@ -21,10 +21,10 @@ class RemindersViewModel extends BaseViewModel {
   }
 
   setSelectedDateReminders(DateTime selectedDate) {
-    selectedDateReminders = [
-      ...allReminders
-          .where((reminder) => reminder.date.isSameDate(selectedDate))
-    ];
+    selectedDateReminders.clear();
+    selectedDateReminders.addAll(List<Reminder>.from(allReminders
+        .where((reminder) => reminder.date.isSameDate(selectedDate))));
+
     notifyListeners();
   }
 }

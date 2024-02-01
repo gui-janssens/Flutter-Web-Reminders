@@ -1,4 +1,3 @@
-import 'package:codelitt_calendar/src/domain/domain.dart';
 import 'package:codelitt_calendar/src/presentation/presentation.dart';
 import 'package:codelitt_calendar/src/presentation/views/calendar_shell_scaffold/widgets/month_grid_builder.dart';
 import 'package:codelitt_calendar/src/utils/utlls.dart';
@@ -8,11 +7,11 @@ import 'package:svg_flutter/svg_flutter.dart';
 
 class Calendar extends StatefulWidget {
   final CalendarViewModel calendarViewModel;
-  final List<Reminder> allReminders;
+  final RemindersViewModel remindersViewModel;
   const Calendar({
     super.key,
     required this.calendarViewModel,
-    required this.allReminders,
+    required this.remindersViewModel,
   });
 
   @override
@@ -22,6 +21,7 @@ class Calendar extends StatefulWidget {
 class _CalendarState extends State<Calendar> {
   ViewModelState get state => widget.calendarViewModel.state;
   CalendarViewModel get calendarViewModel => widget.calendarViewModel;
+  RemindersViewModel get remindersViewModel => widget.remindersViewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +93,11 @@ class _CalendarState extends State<Calendar> {
             currentCalendarDate: calendarViewModel.currentCalendarDate,
             selectedDate: calendarViewModel.selectedDate,
             monthGrid: calendarViewModel.monthGrid,
-            onDateTapped: calendarViewModel.setSelectedDate,
-            allReminders: widget.allReminders,
+            onDateTapped: (date) {
+              calendarViewModel.setSelectedDate(date);
+              remindersViewModel.setSelectedDateReminders(date);
+            },
+            allReminders: remindersViewModel.allReminders,
           ),
           const Spacer(),
           const Text(
