@@ -1,9 +1,11 @@
+import 'package:codelitt_calendar/src/presentation/forms/reminder_form.dart';
 import 'package:codelitt_calendar/src/presentation/presentation.dart';
 import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/color_palette.dart';
 import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/custom_button.dart';
 import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/custom_text_field.dart';
 import 'package:codelitt_calendar/src/utils/utlls.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -49,7 +51,9 @@ class EditReminderView extends StatelessWidget {
               const Gap(1),
               CustomTextField(
                 hintText: 'Title',
-                onChanged: (v) {},
+                onChanged: remindersViewModel.onEditFormTitle,
+                hasError: (remindersViewModel.form.title?.length ?? 0) > 30,
+                errorText: 'Title must have a maximum of 30 characters.',
               ),
               const Gap(30),
               const Text(
@@ -65,7 +69,7 @@ class EditReminderView extends StatelessWidget {
                 height: 76,
                 minLines: 5,
                 maxLines: 5,
-                onChanged: (v) {},
+                onChanged: remindersViewModel.onEditFormDescription,
               ),
               const Gap(30),
               Row(
@@ -84,7 +88,14 @@ class EditReminderView extends StatelessWidget {
                         const Gap(1),
                         CustomTextField(
                           hintText: 'MM/DD/YYYY',
-                          onChanged: (v) {},
+                          onChanged: remindersViewModel.onEditFormDate,
+                          keyboardType: TextInputType.number,
+                          controller: remindersViewModel.dateController,
+                          hasError: remindersViewModel.dateHasError,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          errorText: remindersViewModel.dateError,
                         ),
                       ],
                     ),
@@ -104,7 +115,14 @@ class EditReminderView extends StatelessWidget {
                         const Gap(1),
                         CustomTextField(
                           hintText: 'HH:MM',
-                          onChanged: (v) {},
+                          keyboardType: TextInputType.number,
+                          controller: remindersViewModel.timeController,
+                          errorText: remindersViewModel.timeError,
+                          hasError: remindersViewModel.timeHasError,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          onChanged: remindersViewModel.onEditFormTime,
                         ),
                       ],
                     ),
@@ -121,7 +139,7 @@ class EditReminderView extends StatelessWidget {
               ),
               const Gap(1),
               ColorPalette(
-                onColorTapped: (color) {},
+                onColorTapped: remindersViewModel.onEditFormColor,
                 selectedColor: remindersViewModel.form.color,
               ),
               const Spacer(),
@@ -146,6 +164,7 @@ class EditReminderView extends StatelessWidget {
                     children: [
                       CustomButton(
                         onTap: () {
+                          remindersViewModel.form = ReminderForm();
                           GoRouter.of(context).go(RemindersView.path);
                         },
                         text: 'Cancel',
