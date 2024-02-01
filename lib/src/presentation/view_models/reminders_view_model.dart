@@ -166,9 +166,9 @@ class RemindersViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<bool> onCreateReminder(DateTime selectedDate) async {
+  Future<CreateReminderResult> onCreateReminder(DateTime selectedDate) async {
     if (!form.validateFields()) {
-      return false;
+      return CreateReminderResult.fail;
     }
 
     form.date = DateTime(
@@ -184,14 +184,35 @@ class RemindersViewModel extends BaseViewModel {
     setSaving(true);
     final result = await addReminderUseCase.call(reminderPayload);
     setSaving(false);
-    if (result.isOk()) {
-      final reminder = result.unwrap();
-      allReminders.add(reminder);
-      setSelectedDateReminders(selectedDate);
-      form = ReminderForm();
-      return true;
+    if (result.isErr()) {
+      return CreateReminderResult.fail;
     }
 
-    return false;
+    final reminder = result.unwrap();
+    allReminders.add(reminder);
+    setSelectedDateReminders(selectedDate);
+    late CreateReminderResult successType;
+    if (form.date!.isSameDate(selectedDate)) {
+      successType = CreateReminderResult.createdInTheSameDate;
+    } else {
+      successType = CreateReminderResult.createdInADifferentDate;
+    }
+
+    return successType;
   }
+}
+
+enum CreateReminderResult {
+  fail('fail'),
+  createdInTheSameDate('createdInTheSameDate'),
+  createdInADifferentDate('createdInADifferentDate');
+
+  final String value;
+
+  const CreateReminderResult(this.value);
+
+  bool get isCreatedInADifferentDate =>
+      this == CreateReminderResult.createdInADifferentDate;
+
+  bool get isFail => this == CreateReminderResult.fail;
 }

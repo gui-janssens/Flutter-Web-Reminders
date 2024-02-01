@@ -1,6 +1,6 @@
-import 'package:codelitt_calendar/src/presentation/forms/reminder_form.dart';
 import 'package:codelitt_calendar/src/presentation/presentation.dart';
 import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/color_palette.dart';
+import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/created_in_a_different_date_dialog.dart';
 import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/custom_button.dart';
 import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/custom_text_field.dart';
 import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/toast.dart';
@@ -165,7 +165,6 @@ class EditReminderView extends StatelessWidget {
                     children: [
                       CustomButton(
                         onTap: () {
-                          remindersViewModel.form = ReminderForm();
                           GoRouter.of(context).go(RemindersView.path);
                         },
                         text: 'Cancel',
@@ -174,14 +173,35 @@ class EditReminderView extends StatelessWidget {
                       const Gap(15),
                       CustomButton(
                         onTap: () async {
-                          if (!await remindersViewModel.onCreateReminder(
-                              calendarViewModel.selectedDate)) {
+                          final result = await remindersViewModel
+                              .onCreateReminder(calendarViewModel.selectedDate);
+                          if (result.isFail) {
                             showToast(
                               context,
                               'Please, fill in all the fields.',
                             );
                           } else {
-                            GoRouter.of(context).go(RemindersView.path);
+                            if (result.isCreatedInADifferentDate) {
+                              createdInADifferentDateDialog(
+                                context,
+                                onTap: (optionChosen) {
+                                  if (optionChosen ==
+                                      ButtonChosen.goBackToPreviousDate) {
+                                    GoRouter.of(context).go(RemindersView.path);
+                                  } else {
+                                    calendarViewModel.setSelectedDate(
+                                      remindersViewModel.form.date!,
+                                    );
+                                    remindersViewModel.setSelectedDateReminders(
+                                      remindersViewModel.form.date!,
+                                    );
+                                    GoRouter.of(context).go(RemindersView.path);
+                                  }
+                                },
+                              );
+                            } else {
+                              GoRouter.of(context).go(RemindersView.path);
+                            }
                           }
                         },
                         text: 'Save',
