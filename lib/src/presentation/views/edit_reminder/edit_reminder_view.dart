@@ -1,8 +1,11 @@
 import 'package:codelitt_calendar/src/presentation/presentation.dart';
+import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/color_palette.dart';
+import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/custom_button.dart';
 import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/custom_text_field.dart';
 import 'package:codelitt_calendar/src/utils/utlls.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -105,6 +108,56 @@ class EditReminderView extends StatelessWidget {
                         ),
                       ],
                     ),
+                  ),
+                ],
+              ),
+              const Gap(30),
+              const Text(
+                'Color',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: AppColors.darkGrey,
+                ),
+              ),
+              const Gap(1),
+              ColorPalette(
+                onColorTapped: (color) {},
+                selectedColor: remindersViewModel.form.color,
+              ),
+              const Spacer(),
+              Divider(
+                height: 0,
+                color: AppColors.textFieldGreyColor.withOpacity(.3),
+              ),
+              const Gap(40),
+              Row(
+                mainAxisAlignment: remindersViewModel.isEditing
+                    ? MainAxisAlignment.spaceBetween
+                    : MainAxisAlignment.end,
+                children: [
+                  if (remindersViewModel.isEditing)
+                    CustomButton(
+                      onTap: () {},
+                      text: 'Remove',
+                      color: AppColors.removeReminder,
+                    ),
+                  const Gap(15),
+                  Row(
+                    children: [
+                      CustomButton(
+                        onTap: () {
+                          GoRouter.of(context).go(RemindersView.path);
+                        },
+                        text: 'Cancel',
+                        color: AppColors.cancelReminder,
+                      ),
+                      const Gap(15),
+                      CustomButton(
+                        onTap: () {},
+                        text: 'Save',
+                        color: AppColors.saveReminder,
+                      ),
+                    ],
                   ),
                 ],
               ),

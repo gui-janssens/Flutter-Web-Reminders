@@ -1,4 +1,5 @@
 import 'package:codelitt_calendar/src/domain/domain.dart';
+import 'package:codelitt_calendar/src/presentation/forms/reminder_form.dart';
 import 'package:codelitt_calendar/src/presentation/presentation.dart';
 import 'package:codelitt_calendar/src/utils/utlls.dart';
 
@@ -12,6 +13,8 @@ class RemindersViewModel extends BaseViewModel {
 
   Reminder? reminderToBeEdited;
   bool get isEditing => reminderToBeEdited != null;
+
+  ReminderForm form = ReminderForm();
 
   getReminders() async {
     final result = await getRemindersUseCase.call();

@@ -13,6 +13,9 @@ class AppColors {
   static const editButtonGradientStart = Color(0xff3BC6FB);
   static const editButtonGradientStop = Color(0xff00ffcc);
   static const textFieldGreyColor = Color(0xff312725);
+  static const removeReminder = Color(0xffd42222);
+  static const cancelReminder = Color(0xff626262);
+  static const saveReminder = Color(0xff394ABC);
 }
 
 class ReminderColors {
@@ -26,6 +29,19 @@ class ReminderColors {
   static const green = Color(0xff6DECA9);
   static const pink = Color(0xffFF8ED4);
   static const brown = Color(0xffBCAAA4);
+
+  static List<Color> get colorsList => [
+        lightGreen,
+        yellow,
+        orange,
+        red,
+        purple,
+        blue,
+        lightBlue,
+        green,
+        pink,
+        brown
+      ];
 
   static Color fromHex(String hexCode) {
     return Color(int.parse('0xff$hexCode'));

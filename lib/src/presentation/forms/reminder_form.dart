@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 class ReminderForm {
+  String? id;
   String? title;
   String? description;
   DateTime? date;
