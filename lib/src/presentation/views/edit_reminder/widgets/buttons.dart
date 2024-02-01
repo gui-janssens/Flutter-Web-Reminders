@@ -25,8 +25,15 @@ class Buttons extends StatelessWidget {
       children: [
         if (remindersViewModel.isEditing)
           CustomButton(
-            onTap: () {},
+            onTap: () async {
+              final result = await remindersViewModel.onDeleteReminder();
+
+              if (result) {
+                GoRouter.of(context).go(RemindersView.path);
+              }
+            },
             text: 'Remove',
+            isLoading: remindersViewModel.isDeleting,
             color: AppColors.removeReminder,
           ),
         const Gap(15),

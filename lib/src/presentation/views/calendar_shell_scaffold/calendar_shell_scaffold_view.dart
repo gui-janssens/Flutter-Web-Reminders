@@ -1,5 +1,6 @@
 import 'package:codelitt_calendar/src/core/locator.dart';
 import 'package:codelitt_calendar/src/domain/domain.dart';
+import 'package:codelitt_calendar/src/domain/use_cases/delete_reminder_use_case.dart';
 import 'package:codelitt_calendar/src/presentation/presentation.dart';
 import 'package:codelitt_calendar/src/presentation/views/calendar_shell_scaffold/widgets/calendar.dart';
 import 'package:codelitt_calendar/src/utils/utlls.dart';
@@ -30,6 +31,7 @@ class CalenderShellScaffoldView extends StatelessWidget {
               getIt<GetRemindersUseCase>(),
               getIt<AddReminderUseCase>(),
               getIt<UpdateReminderUseCase>(),
+              getIt<DeleteReminderUseCase>(),
             );
             viewModel.getReminders();
             viewModel.setSelectedDateReminders(DateTime.now());

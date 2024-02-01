@@ -1,5 +1,6 @@
 import 'package:codelitt_calendar/src/data/data.dart';
 import 'package:codelitt_calendar/src/domain/domain.dart';
+import 'package:codelitt_calendar/src/domain/use_cases/delete_reminder_use_case.dart';
 import 'package:codelitt_calendar/src/services/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
@@ -19,5 +20,7 @@ class Locator {
         () => AddReminderUseCase(getIt<ReminderRepositoryImpl>()));
     getIt.registerLazySingleton(
         () => UpdateReminderUseCase(getIt<ReminderRepositoryImpl>()));
+    getIt.registerLazySingleton(
+        () => DeleteReminderUseCase(getIt<ReminderRepositoryImpl>()));
   }
 }

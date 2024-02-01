@@ -1,4 +1,5 @@
 import 'package:codelitt_calendar/src/domain/domain.dart';
+import 'package:codelitt_calendar/src/domain/use_cases/delete_reminder_use_case.dart';
 import 'package:codelitt_calendar/src/presentation/forms/reminder_form.dart';
 import 'package:codelitt_calendar/src/presentation/presentation.dart';
 import 'package:codelitt_calendar/src/utils/utlls.dart';
@@ -9,11 +10,13 @@ class RemindersViewModel extends BaseViewModel {
   final GetRemindersUseCase getRemindersUseCase;
   final AddReminderUseCase addReminderUseCase;
   final UpdateReminderUseCase updateReminderUseCase;
+  final DeleteReminderUseCase deleteReminderUseCase;
 
   RemindersViewModel(
     this.getRemindersUseCase,
     this.addReminderUseCase,
     this.updateReminderUseCase,
+    this.deleteReminderUseCase,
   );
 
   List<Reminder> allReminders = [];
@@ -60,8 +63,13 @@ class RemindersViewModel extends BaseViewModel {
 
   clearForm(DateTime selectedDate) {
     form = ReminderForm();
-    dateController.text = DateFormat('MM/dd/yyyy').format(selectedDate);
+    setDateControllerText(selectedDate);
     timeController.text = '';
+  }
+
+  setDateControllerText(DateTime date) {
+    dateController.text = DateFormat('MM/dd/yyyy').format(date);
+    form.date = date;
   }
 
   onEditFormColor(color) {
@@ -83,6 +91,7 @@ class RemindersViewModel extends BaseViewModel {
   );
   bool dateHasError = false;
   String? dateError;
+
   onEditFormDate(String input) {
     dateHasError = false;
     notifyListeners();
@@ -145,6 +154,7 @@ class RemindersViewModel extends BaseViewModel {
   bool timeHasError = false;
   late int hour;
   late int minutes;
+
   onEditFormTime(input) {
     timeError = null;
     timeHasError = false;
@@ -267,6 +277,30 @@ class RemindersViewModel extends BaseViewModel {
     }
 
     return successType;
+  }
+
+  bool isDeleting = false;
+
+  setDeleting(bool value) {
+    isDeleting = value;
+    notifyListeners();
+  }
+
+  Future<bool> onDeleteReminder() async {
+    setDeleting(true);
+    final result = await deleteReminderUseCase.call(reminderToBeEdited!.id);
+    setDeleting(false);
+
+    if (result.isOk()) {
+      allReminders
+          .removeWhere((element) => element.id == reminderToBeEdited!.id);
+      selectedDateReminders
+          .removeWhere((element) => element.id == reminderToBeEdited!.id);
+      notifyListeners();
+      return true;
+    }
+
+    return false;
   }
 }
 
