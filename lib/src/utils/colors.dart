@@ -12,6 +12,7 @@ class AppColors {
   static const addReminderGradientStop = Color(0xffBC46BA);
   static const editButtonGradientStart = Color(0xff3BC6FB);
   static const editButtonGradientStop = Color(0xff00ffcc);
+  static const textFieldGreyColor = Color(0xff312725);
 }
 
 class ReminderColors {

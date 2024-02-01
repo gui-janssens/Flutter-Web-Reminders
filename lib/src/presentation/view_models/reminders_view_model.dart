@@ -11,6 +11,7 @@ class RemindersViewModel extends BaseViewModel {
   List<Reminder> selectedDateReminders = [];
 
   Reminder? reminderToBeEdited;
+  bool get isEditing => reminderToBeEdited != null;
 
   getReminders() async {
     final result = await getRemindersUseCase.call();
