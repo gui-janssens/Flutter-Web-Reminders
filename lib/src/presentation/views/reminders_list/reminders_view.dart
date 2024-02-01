@@ -34,7 +34,7 @@ class _RemindersViewState extends State<RemindersView> {
       }
       return RemindersList(
         selectedDate: calendarViewModel.selectedDate,
-        selectedDateReminders: remindersViewModel.selectedDateReminders,
+        remindersViewModel: remindersViewModel,
       );
     });
   }

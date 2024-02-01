@@ -9,9 +9,11 @@ class ReminderCard extends StatelessWidget {
   final Reminder reminder;
   final bool isFirst;
   final bool isLast;
+  final Function(Reminder) onEditReminder;
   const ReminderCard({
     Key? key,
     required this.reminder,
+    required this.onEditReminder,
     this.isFirst = false,
     this.isLast = false,
   }) : super(key: key);
@@ -128,25 +130,28 @@ class ReminderCard extends StatelessWidget {
           Positioned(
             bottom: 0,
             right: 0,
-            child: Container(
-              height: 36,
-              width: 36,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                  colors: [
-                    AppColors.editButtonGradientStart,
-                    AppColors.editButtonGradientStop,
-                  ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
+            child: GestureDetector(
+              onTap: () => onEditReminder(reminder),
+              child: Container(
+                height: 36,
+                width: 36,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.editButtonGradientStart,
+                      AppColors.editButtonGradientStop,
+                    ],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
                 ),
-              ),
-              child: Center(
-                child: SvgPicture.asset(
-                  'assets/images/edit.svg',
-                  height: 18,
-                  width: 18,
+                child: Center(
+                  child: SvgPicture.asset(
+                    'assets/images/edit.svg',
+                    height: 18,
+                    width: 18,
+                  ),
                 ),
               ),
             ),

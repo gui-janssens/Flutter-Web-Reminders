@@ -1,4 +1,5 @@
 import 'package:codelitt_calendar/src/domain/domain.dart';
+import 'package:codelitt_calendar/src/presentation/presentation.dart';
 import 'package:codelitt_calendar/src/presentation/views/reminders_list/widgets/add_reminder.dart';
 import 'package:codelitt_calendar/src/presentation/views/reminders_list/widgets/custom_scroll_bar.dart';
 import 'package:codelitt_calendar/src/presentation/views/reminders_list/widgets/reminder_card.dart';
@@ -7,15 +8,18 @@ import 'package:gap/gap.dart';
 
 class RemindersList extends StatelessWidget {
   final DateTime selectedDate;
-  final List<Reminder> selectedDateReminders;
+  final RemindersViewModel remindersViewModel;
 
   RemindersList({
     super.key,
     required this.selectedDate,
-    required this.selectedDateReminders,
+    required this.remindersViewModel,
   });
 
   final ScrollController scrollController = ScrollController();
+
+  List<Reminder> get selectedDateReminders =>
+      remindersViewModel.selectedDateReminders;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +42,8 @@ class RemindersList extends StatelessWidget {
                   reminder: selectedDateReminders[index],
                   isFirst: index == 0,
                   isLast: index == selectedDateReminders.length - 1,
+                  onEditReminder: (reminder) =>
+                      remindersViewModel.setReminderToBeEdited(reminder),
                 ),
                 separatorBuilder: (_, index) {
                   return const Gap(15);

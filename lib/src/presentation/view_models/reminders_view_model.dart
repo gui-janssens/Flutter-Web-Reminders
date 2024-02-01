@@ -10,6 +10,8 @@ class RemindersViewModel extends BaseViewModel {
   List<Reminder> allReminders = [];
   List<Reminder> selectedDateReminders = [];
 
+  Reminder? reminderToBeEdited;
+
   getReminders() async {
     final result = await getRemindersUseCase.call();
 
@@ -26,5 +28,9 @@ class RemindersViewModel extends BaseViewModel {
     selectedDateReminders.clear();
     selectedDateReminders.addAll(List<Reminder>.from(allReminders
         .where((reminder) => reminder.date.isSameDate(selectedDate))));
+  }
+
+  setReminderToBeEdited(Reminder reminder) {
+    reminderToBeEdited = Reminder.copy(reminder);
   }
 }
