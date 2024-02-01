@@ -3,6 +3,7 @@ import 'package:codelitt_calendar/src/presentation/presentation.dart';
 import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/color_palette.dart';
 import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/custom_button.dart';
 import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/custom_text_field.dart';
+import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/toast.dart';
 import 'package:codelitt_calendar/src/utils/utlls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -172,8 +173,19 @@ class EditReminderView extends StatelessWidget {
                       ),
                       const Gap(15),
                       CustomButton(
-                        onTap: () {},
+                        onTap: () async {
+                          if (!await remindersViewModel.onCreateReminder(
+                              calendarViewModel.selectedDate)) {
+                            showToast(
+                              context,
+                              'Please, fill in all the fields.',
+                            );
+                          } else {
+                            GoRouter.of(context).go(RemindersView.path);
+                          }
+                        },
                         text: 'Save',
+                        isLoading: remindersViewModel.isSaving,
                         color: AppColors.saveReminder,
                       ),
                     ],

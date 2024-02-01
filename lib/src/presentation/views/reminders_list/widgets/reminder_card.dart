@@ -130,7 +130,7 @@ class ReminderCard extends StatelessWidget {
           Positioned(
             bottom: 0,
             right: 0,
-            child: GestureDetector(
+            child: InkWell(
               onTap: () => onEditReminder(reminder),
               child: Container(
                 height: 36,

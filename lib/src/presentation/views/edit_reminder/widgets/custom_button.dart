@@ -5,17 +5,19 @@ class CustomButton extends StatelessWidget {
   final VoidCallback onTap;
   final String text;
   final Color color;
+  final bool isLoading;
 
   const CustomButton({
     super.key,
     required this.onTap,
     required this.text,
     required this.color,
+    this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
       child: Container(
         height: 50,
@@ -33,14 +35,18 @@ class CustomButton extends StatelessWidget {
           ],
         ),
         child: Center(
-          child: Text(
-            text,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          child: isLoading
+              ? const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(Colors.white),
+                )
+              : Text(
+                  text,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
         ),
       ),
     );

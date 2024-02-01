@@ -24,8 +24,8 @@ class ReminderForm {
     return {
       'title': title,
       'description': description,
-      'date': date,
-      'color': color,
+      'date': date!.toIso8601String(),
+      'color': color!.toHex(),
     };
   }
 }

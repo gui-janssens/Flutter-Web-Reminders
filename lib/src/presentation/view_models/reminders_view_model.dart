@@ -6,8 +6,12 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 
 class RemindersViewModel extends BaseViewModel {
   final GetRemindersUseCase getRemindersUseCase;
+  final AddReminderUseCase addReminderUseCase;
 
-  RemindersViewModel(this.getRemindersUseCase);
+  RemindersViewModel(
+    this.getRemindersUseCase,
+    this.addReminderUseCase,
+  );
 
   List<Reminder> allReminders = [];
   List<Reminder> selectedDateReminders = [];
@@ -31,6 +35,11 @@ class RemindersViewModel extends BaseViewModel {
     selectedDateReminders.clear();
     selectedDateReminders.addAll(List<Reminder>.from(allReminders
         .where((reminder) => reminder.date.isSameDate(selectedDate))));
+
+    selectedDateReminders.sort(
+      (a, b) => a.date.millisecondsSinceEpoch
+          .compareTo(b.date.millisecondsSinceEpoch),
+    );
   }
 
   setReminderToBeEdited(Reminder reminder) {
@@ -69,6 +78,8 @@ class RemindersViewModel extends BaseViewModel {
       notifyListeners();
       return;
     }
+
+    form.date = date;
 
     notifyListeners();
   }
@@ -146,5 +157,41 @@ class RemindersViewModel extends BaseViewModel {
     }
 
     return true;
+  }
+
+  bool isSaving = false;
+
+  setSaving(bool value) {
+    isSaving = value;
+    notifyListeners();
+  }
+
+  Future<bool> onCreateReminder(DateTime selectedDate) async {
+    if (!form.validateFields()) {
+      return false;
+    }
+
+    form.date = DateTime(
+      form.date!.year,
+      form.date!.month,
+      form.date!.day,
+      hour,
+      minutes,
+    );
+
+    final reminderPayload = form.createPayload();
+
+    setSaving(true);
+    final result = await addReminderUseCase.call(reminderPayload);
+    setSaving(false);
+    if (result.isOk()) {
+      final reminder = result.unwrap();
+      allReminders.add(reminder);
+      setSelectedDateReminders(selectedDate);
+      form = ReminderForm();
+      return true;
+    }
+
+    return false;
   }
 }

@@ -61,7 +61,7 @@ class _CalendarState extends State<Calendar> {
             width: 64,
             child: Row(
               children: [
-                GestureDetector(
+                InkWell(
                   onTap: () => calendarViewModel.setSelectedMonthInCalendar(
                     calendarViewModel.currentCalendarDate.getPreviousMonth(),
                   ),
@@ -76,7 +76,7 @@ class _CalendarState extends State<Calendar> {
                   height: 6,
                   width: 6,
                 ),
-                GestureDetector(
+                InkWell(
                   onTap: () => calendarViewModel.setSelectedMonthInCalendar(
                       calendarViewModel.currentCalendarDate.getNextMonth()),
                   child: const Icon(

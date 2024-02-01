@@ -36,8 +36,7 @@ class MonthGridBuilder extends StatelessWidget {
               children: List.generate(
                 7,
                 (day) => Expanded(
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
+                  child: InkWell(
                     onTap: () {
                       if (monthGrid[week][day] == null) return;
                       if (selectedDate.day == monthGrid[week][day]!.day &&

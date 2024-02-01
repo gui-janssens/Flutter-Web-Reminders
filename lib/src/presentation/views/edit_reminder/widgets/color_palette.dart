@@ -45,7 +45,7 @@ class ColorBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: GestureDetector(
+      child: InkWell(
         onTap: () => onColorTapped(color),
         child: Container(
           height: 55,

@@ -79,6 +79,7 @@ class ApiService {
     final uri = buildUri(path);
     payload['id'] = '${DateTime.now().millisecondsSinceEpoch}';
     _logger.d('POST @:\n$uri');
+    await Future.delayed(const Duration(seconds: 2));
     return Result.ok(payload);
 
     // try {
