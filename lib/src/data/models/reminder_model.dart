@@ -19,7 +19,7 @@ class ReminderModel {
         title,
         description,
         date,
-        AppColors.convertHexToColor(color),
+        ReminderColors.fromHex(color),
       );
 
   factory ReminderModel.fromJson(Map<String, dynamic> json) =>

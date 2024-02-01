@@ -5,44 +5,47 @@ import 'package:gap/gap.dart';
 import 'package:svg_flutter/svg.dart';
 
 class NoRemindersPlaceHolder extends StatelessWidget {
-  final DateTime selectedDateTime;
+  final DateTime selectedDate;
 
   const NoRemindersPlaceHolder({
     super.key,
-    required this.selectedDateTime,
+    required this.selectedDate,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AddReminder(selectedDateTime),
-        Expanded(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              'assets/images/no_reminders_placeholder.svg',
-              height: 225,
-              fit: BoxFit.fitHeight,
-              placeholderBuilder: (_) => Container(height: 225),
-            ),
-            const Gap(5),
-            const Text(
-              'No reminders registered so far',
-              style: TextStyle(
-                color: AppColors.grey,
-                fontSize: 21,
-                fontWeight: FontWeight.w600,
+    return Padding(
+      padding: const EdgeInsets.all(40),
+      child: Column(
+        children: [
+          AddReminder(selectedDate),
+          Expanded(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/images/no_reminders_placeholder.svg',
+                height: 225,
+                fit: BoxFit.fitHeight,
+                placeholderBuilder: (_) => Container(height: 225),
               ),
-            )
-          ],
-        )),
-        Opacity(
-          opacity: 0,
-          child: AddReminder(selectedDateTime),
-        ),
-      ],
+              const Gap(5),
+              const Text(
+                'No reminders registered so far',
+                style: TextStyle(
+                  color: AppColors.midGrey,
+                  fontSize: 21,
+                  fontWeight: FontWeight.w600,
+                ),
+              )
+            ],
+          )),
+          Opacity(
+            opacity: 0,
+            child: AddReminder(selectedDate),
+          ),
+        ],
+      ),
     );
   }
 }

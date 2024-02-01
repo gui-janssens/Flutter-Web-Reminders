@@ -17,6 +17,8 @@ class RemindersViewModel extends BaseViewModel {
       allReminders = result.unwrap();
     }
 
+    setSelectedDateReminders(DateTime.now());
+
     setState(ViewModelState.ready);
   }
 
@@ -24,7 +26,5 @@ class RemindersViewModel extends BaseViewModel {
     selectedDateReminders.clear();
     selectedDateReminders.addAll(List<Reminder>.from(allReminders
         .where((reminder) => reminder.date.isSameDate(selectedDate))));
-
-    notifyListeners();
   }
 }

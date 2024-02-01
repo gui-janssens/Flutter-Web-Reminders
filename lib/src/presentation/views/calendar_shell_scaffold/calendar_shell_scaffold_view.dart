@@ -65,9 +65,8 @@ class CalenderShellScaffoldView extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      Container(
+                      SizedBox(
                         width: 1120 - 450,
-                        padding: const EdgeInsets.all(40),
                         child: calendarViewModel.state.isLoading ||
                                 remindersViewModel.state.isLoading
                             ? const Center()

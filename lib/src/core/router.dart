@@ -22,9 +22,9 @@ class Router {
             NoTransitionPage(child: CalenderShellScaffoldView(child: child)),
         routes: [
           GoRoute(
-            path: RemindersListView.path,
+            path: RemindersView.path,
             pageBuilder: (_, __) {
-              return const NoTransitionPage(child: RemindersListView());
+              return const NoTransitionPage(child: RemindersView());
             },
           ),
           GoRoute(

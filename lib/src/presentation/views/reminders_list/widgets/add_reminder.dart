@@ -6,8 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class AddReminder extends StatelessWidget {
-  final DateTime selectedDateTime;
-  const AddReminder(this.selectedDateTime, {super.key});
+  final DateTime selectedDate;
+  const AddReminder(this.selectedDate, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class AddReminder extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            DateFormat('EEEE, MMM d, y').format(selectedDateTime),
+            DateFormat('EEEE, MMM d, y').format(selectedDate),
             textAlign: TextAlign.start,
             style: const TextStyle(
               color: AppColors.darkGrey,
