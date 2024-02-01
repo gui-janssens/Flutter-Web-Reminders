@@ -7,7 +7,12 @@ import 'package:intl/intl.dart';
 
 class AddReminder extends StatelessWidget {
   final DateTime selectedDate;
-  const AddReminder(this.selectedDate, {super.key});
+  final VoidCallback clearForm;
+  const AddReminder(
+    this.selectedDate, {
+    super.key,
+    required this.clearForm,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,10 @@ class AddReminder extends StatelessWidget {
         ),
         const Gap(20),
         AddReminderButton(
-          onTap: () => GoRouter.of(context).go(EditReminderView.path),
+          onTap: () {
+            clearForm();
+            GoRouter.of(context).go(EditReminderView.path);
+          },
         ),
       ],
     );

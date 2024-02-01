@@ -79,7 +79,7 @@ class ApiService {
     final uri = buildUri(path);
     payload['id'] = '${DateTime.now().millisecondsSinceEpoch}';
     _logger.d('POST @:\n$uri');
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 1500));
     return Result.ok(payload);
 
     // try {
@@ -110,6 +110,7 @@ class ApiService {
     // simulating a success deletion.
     final uri = buildUri(path);
     _logger.d('DELETE @:\n$uri');
+    await Future.delayed(const Duration(milliseconds: 1500));
     return const Result.ok(true);
 
     // try {
@@ -138,6 +139,7 @@ class ApiService {
     // simulating a successful update.
     final uri = buildUri(path);
     _logger.d('PATCH @:\n$uri');
+    await Future.delayed(const Duration(milliseconds: 1500));
     return const Result.ok(true);
 
     // try {

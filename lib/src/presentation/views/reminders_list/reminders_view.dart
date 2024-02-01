@@ -30,6 +30,8 @@ class _RemindersViewState extends State<RemindersView> {
       if (remindersViewModel.selectedDateReminders.isEmpty) {
         return NoRemindersPlaceHolder(
           selectedDate: calendarViewModel.selectedDate,
+          clearForm: () =>
+              remindersViewModel.clearForm(calendarViewModel.selectedDate),
         );
       }
       return RemindersList(

@@ -6,10 +6,12 @@ import 'package:svg_flutter/svg.dart';
 
 class NoRemindersPlaceHolder extends StatelessWidget {
   final DateTime selectedDate;
+  final VoidCallback clearForm;
 
   const NoRemindersPlaceHolder({
     super.key,
     required this.selectedDate,
+    required this.clearForm,
   });
 
   @override
@@ -18,7 +20,10 @@ class NoRemindersPlaceHolder extends StatelessWidget {
       padding: const EdgeInsets.all(40),
       child: Column(
         children: [
-          AddReminder(selectedDate),
+          AddReminder(
+            selectedDate,
+            clearForm: clearForm,
+          ),
           Expanded(
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -42,7 +47,7 @@ class NoRemindersPlaceHolder extends StatelessWidget {
           )),
           Opacity(
             opacity: 0,
-            child: AddReminder(selectedDate),
+            child: AddReminder(selectedDate, clearForm: () {}),
           ),
         ],
       ),

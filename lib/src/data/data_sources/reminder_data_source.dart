@@ -46,8 +46,7 @@ class ReminderRemoteDataSource {
     );
 
     if (response.isOk()) {
-      final data = response.unwrap();
-      return Result.ok(ReminderModel.fromJson(data));
+      return const Result.ok(true);
     }
 
     return Result.err(response.unwrapErr());

@@ -17,5 +17,7 @@ class Locator {
         () => GetRemindersUseCase(getIt<ReminderRepositoryImpl>()));
     getIt.registerLazySingleton(
         () => AddReminderUseCase(getIt<ReminderRepositoryImpl>()));
+    getIt.registerLazySingleton(
+        () => UpdateReminderUseCase(getIt<ReminderRepositoryImpl>()));
   }
 }

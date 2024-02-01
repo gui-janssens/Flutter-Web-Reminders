@@ -5,6 +5,7 @@ import 'package:codelitt_calendar/src/presentation/views/reminders_list/widgets/
 import 'package:codelitt_calendar/src/presentation/views/reminders_list/widgets/reminder_card.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class RemindersList extends StatelessWidget {
   final DateTime selectedDate;
@@ -27,7 +28,10 @@ class RemindersList extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(40, 40, 40, 0),
-          child: AddReminder(selectedDate),
+          child: AddReminder(
+            selectedDate,
+            clearForm: () => remindersViewModel.clearForm(selectedDate),
+          ),
         ),
         const Gap(20),
         Expanded(
@@ -42,8 +46,10 @@ class RemindersList extends StatelessWidget {
                   reminder: selectedDateReminders[index],
                   isFirst: index == 0,
                   isLast: index == selectedDateReminders.length - 1,
-                  onEditReminder: (reminder) =>
-                      remindersViewModel.setReminderToBeEdited(reminder),
+                  onEditReminder: (reminder) {
+                    remindersViewModel.setReminderToBeEdited(reminder);
+                    GoRouter.of(context).go(EditReminderView.path);
+                  },
                 ),
                 separatorBuilder: (_, index) {
                   return const Gap(15);

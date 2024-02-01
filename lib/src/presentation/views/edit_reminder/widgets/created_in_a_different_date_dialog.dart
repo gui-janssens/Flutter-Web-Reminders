@@ -15,7 +15,7 @@ createdInADifferentDateDialog(
     builder: (BuildContext context) => CupertinoAlertDialog(
       title: const Text('Different dates'),
       content: const Text(
-        'We\'ve noticed you created this reminder in a different date. Would you like to go back to the previous date or move to the reminder\'s date?',
+        'You saved this reminder in a different date. Would you like to go back to the current date or move to the reminder\'s date?',
       ),
       actions: <Widget>[
         CupertinoDialogAction(

@@ -3,6 +3,7 @@ import 'package:codelitt_calendar/src/presentation/views/calendar_shell_scaffold
 import 'package:codelitt_calendar/src/utils/utlls.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
 class Calendar extends StatefulWidget {
@@ -96,6 +97,8 @@ class _CalendarState extends State<Calendar> {
             onDateTapped: (date) {
               calendarViewModel.setSelectedDate(date);
               remindersViewModel.setSelectedDateReminders(date);
+              remindersViewModel.dateController.text =
+                  DateFormat('MM/dd/yyyy').format(date);
             },
             allReminders: remindersViewModel.allReminders,
           ),

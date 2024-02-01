@@ -107,7 +107,7 @@ class CustomTextField extends StatelessWidget {
                       ),
                     ),
                     fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                    contentPadding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
                     filled: true,
                     hintText: hintText,
                     hintStyle: TextStyle(

@@ -29,6 +29,7 @@ class CalenderShellScaffoldView extends StatelessWidget {
             final viewModel = RemindersViewModel(
               getIt<GetRemindersUseCase>(),
               getIt<AddReminderUseCase>(),
+              getIt<UpdateReminderUseCase>(),
             );
             viewModel.getReminders();
             viewModel.setSelectedDateReminders(DateTime.now());

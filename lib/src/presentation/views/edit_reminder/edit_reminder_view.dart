@@ -1,22 +1,24 @@
 import 'package:codelitt_calendar/src/presentation/presentation.dart';
+import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/buttons.dart';
 import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/color_palette.dart';
-import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/created_in_a_different_date_dialog.dart';
-import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/custom_button.dart';
 import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/custom_text_field.dart';
-import 'package:codelitt_calendar/src/presentation/views/edit_reminder/widgets/toast.dart';
 import 'package:codelitt_calendar/src/utils/utlls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class EditReminderView extends StatelessWidget {
+class EditReminderView extends StatefulWidget {
   static const path = '/edit-reminder';
 
   const EditReminderView({super.key});
 
+  @override
+  State<EditReminderView> createState() => _EditReminderViewState();
+}
+
+class _EditReminderViewState extends State<EditReminderView> {
   @override
   Widget build(BuildContext context) {
     return Consumer2<RemindersViewModel, CalendarViewModel>(
@@ -53,6 +55,7 @@ class EditReminderView extends StatelessWidget {
               CustomTextField(
                 hintText: 'Title',
                 onChanged: remindersViewModel.onEditFormTitle,
+                initialValue: remindersViewModel.form.title,
                 hasError: (remindersViewModel.form.title?.length ?? 0) > 30,
                 errorText: 'Title must have a maximum of 30 characters.',
               ),
@@ -69,6 +72,7 @@ class EditReminderView extends StatelessWidget {
                 hintText: 'Description',
                 height: 76,
                 minLines: 5,
+                initialValue: remindersViewModel.form.description,
                 maxLines: 5,
                 onChanged: remindersViewModel.onEditFormDescription,
               ),
@@ -149,68 +153,9 @@ class EditReminderView extends StatelessWidget {
                 color: AppColors.textFieldGreyColor.withOpacity(.3),
               ),
               const Gap(40),
-              Row(
-                mainAxisAlignment: remindersViewModel.isEditing
-                    ? MainAxisAlignment.spaceBetween
-                    : MainAxisAlignment.end,
-                children: [
-                  if (remindersViewModel.isEditing)
-                    CustomButton(
-                      onTap: () {},
-                      text: 'Remove',
-                      color: AppColors.removeReminder,
-                    ),
-                  const Gap(15),
-                  Row(
-                    children: [
-                      CustomButton(
-                        onTap: () {
-                          GoRouter.of(context).go(RemindersView.path);
-                        },
-                        text: 'Cancel',
-                        color: AppColors.cancelReminder,
-                      ),
-                      const Gap(15),
-                      CustomButton(
-                        onTap: () async {
-                          final result = await remindersViewModel
-                              .onCreateReminder(calendarViewModel.selectedDate);
-                          if (result.isFail) {
-                            showToast(
-                              context,
-                              'Please, fill in all the fields.',
-                            );
-                          } else {
-                            if (result.isCreatedInADifferentDate) {
-                              createdInADifferentDateDialog(
-                                context,
-                                onTap: (optionChosen) {
-                                  if (optionChosen ==
-                                      ButtonChosen.goBackToPreviousDate) {
-                                    GoRouter.of(context).go(RemindersView.path);
-                                  } else {
-                                    calendarViewModel.setSelectedDate(
-                                      remindersViewModel.form.date!,
-                                    );
-                                    remindersViewModel.setSelectedDateReminders(
-                                      remindersViewModel.form.date!,
-                                    );
-                                    GoRouter.of(context).go(RemindersView.path);
-                                  }
-                                },
-                              );
-                            } else {
-                              GoRouter.of(context).go(RemindersView.path);
-                            }
-                          }
-                        },
-                        text: 'Save',
-                        isLoading: remindersViewModel.isSaving,
-                        color: AppColors.saveReminder,
-                      ),
-                    ],
-                  ),
-                ],
+              Buttons(
+                remindersViewModel: remindersViewModel,
+                calendarViewModel: calendarViewModel,
               ),
             ],
           ),

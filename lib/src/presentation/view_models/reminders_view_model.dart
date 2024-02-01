@@ -3,14 +3,17 @@ import 'package:codelitt_calendar/src/presentation/forms/reminder_form.dart';
 import 'package:codelitt_calendar/src/presentation/presentation.dart';
 import 'package:codelitt_calendar/src/utils/utlls.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:intl/intl.dart';
 
 class RemindersViewModel extends BaseViewModel {
   final GetRemindersUseCase getRemindersUseCase;
   final AddReminderUseCase addReminderUseCase;
+  final UpdateReminderUseCase updateReminderUseCase;
 
   RemindersViewModel(
     this.getRemindersUseCase,
     this.addReminderUseCase,
+    this.updateReminderUseCase,
   );
 
   List<Reminder> allReminders = [];
@@ -44,9 +47,22 @@ class RemindersViewModel extends BaseViewModel {
 
   setReminderToBeEdited(Reminder reminder) {
     reminderToBeEdited = Reminder.copy(reminder);
+    form = ReminderForm.fromReminder(reminderToBeEdited!);
+    dateController.text = DateFormat('MM/dd/yyyy').format(form.date!);
+    timeController.text = DateFormat('HH:mm').format(form.date!);
+    hour = form.date!.hour;
+    minutes = form.date!.minute;
+
+    notifyListeners();
   }
 
   ReminderForm form = ReminderForm();
+
+  clearForm(DateTime selectedDate) {
+    form = ReminderForm();
+    dateController.text = DateFormat('MM/dd/yyyy').format(selectedDate);
+    timeController.text = '';
+  }
 
   onEditFormColor(color) {
     form.color = color;
@@ -166,9 +182,61 @@ class RemindersViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<CreateReminderResult> onCreateReminder(DateTime selectedDate) async {
+  Future<SaveReminderResult> onUpdateReminder() async {
     if (!form.validateFields()) {
-      return CreateReminderResult.fail;
+      return SaveReminderResult.fail;
+    }
+
+    form.date = DateTime(
+      form.date!.year,
+      form.date!.month,
+      form.date!.day,
+      hour,
+      minutes,
+    );
+
+    final reminderPayload = form.createPayload();
+
+    setSaving(true);
+    final result = await updateReminderUseCase.call(
+        reminderPayload, reminderToBeEdited!.id);
+    setSaving(false);
+
+    if (result.isErr()) {
+      return SaveReminderResult.fail;
+    }
+
+    final Reminder updatedReminder = Reminder(
+      reminderToBeEdited!.id,
+      form.title!,
+      form.description!,
+      form.date!,
+      form.color!,
+    );
+
+    allReminders[allReminders.indexWhere((element) => element.id == form.id)] =
+        updatedReminder;
+
+    selectedDateReminders[selectedDateReminders
+        .indexWhere((element) => element.id == form.id)] = updatedReminder;
+
+    notifyListeners();
+
+    late SaveReminderResult successType;
+    if (form.date!.isSameDate(reminderToBeEdited!.date)) {
+      successType = SaveReminderResult.savedInTheSameDate;
+    } else {
+      successType = SaveReminderResult.savedInADifferentDate;
+    }
+
+    reminderToBeEdited = null;
+
+    return successType;
+  }
+
+  Future<SaveReminderResult> onCreateReminder(DateTime selectedDate) async {
+    if (!form.validateFields()) {
+      return SaveReminderResult.fail;
     }
 
     form.date = DateTime(
@@ -185,34 +253,34 @@ class RemindersViewModel extends BaseViewModel {
     final result = await addReminderUseCase.call(reminderPayload);
     setSaving(false);
     if (result.isErr()) {
-      return CreateReminderResult.fail;
+      return SaveReminderResult.fail;
     }
 
     final reminder = result.unwrap();
     allReminders.add(reminder);
     setSelectedDateReminders(selectedDate);
-    late CreateReminderResult successType;
+    late SaveReminderResult successType;
     if (form.date!.isSameDate(selectedDate)) {
-      successType = CreateReminderResult.createdInTheSameDate;
+      successType = SaveReminderResult.savedInTheSameDate;
     } else {
-      successType = CreateReminderResult.createdInADifferentDate;
+      successType = SaveReminderResult.savedInADifferentDate;
     }
 
     return successType;
   }
 }
 
-enum CreateReminderResult {
+enum SaveReminderResult {
   fail('fail'),
-  createdInTheSameDate('createdInTheSameDate'),
-  createdInADifferentDate('createdInADifferentDate');
+  savedInTheSameDate('savedInTheSameDate'),
+  savedInADifferentDate('savedInADifferentDate');
 
   final String value;
 
-  const CreateReminderResult(this.value);
+  const SaveReminderResult(this.value);
 
   bool get isCreatedInADifferentDate =>
-      this == CreateReminderResult.createdInADifferentDate;
+      this == SaveReminderResult.savedInADifferentDate;
 
-  bool get isFail => this == CreateReminderResult.fail;
+  bool get isFail => this == SaveReminderResult.fail;
 }
