@@ -46,5 +46,13 @@ This project adopts the Model-View-ViewModel (MVVM) design pattern, leveraging t
 
 ## Final Considerations
 
+- Two details of the requirement got me really thinking:
+
+  1. "Expand the calendar to support more than the current month."; and
+  2. Adding/Editing a reminder should allow a user to change the date. Therefore, clicking the date itself in the calendar did not necessarily meant adding a reminder TO that day.
+
+  With these two considerations being said, I implemented every month possible (to the future only, not the past) until the year 2099. I also allowed, as it was requested, the user to change the date of a reminder on creation/edition, and by doing so, allowing them to navigate to the chosen date after completing the action.
+
+- The date field validation is done in two steps: 1. Through a Regular Expression checking for 12 months, 30 days, and future years. And 2. Through real calendar validation, that is, counting for leap years and extra days in February. To experience the validation, try inputting the date "02/29/2024" and then "02/29/2025".
+
 - The codebase includes comprehensive comments for clarity, but I am available to answer any further questions.
-- The application is deployed and accessible [here](https://linkhere.com)
