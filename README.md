@@ -15,7 +15,7 @@ flutter run
 
 ### Handling Model Generation
 
-The project uses Json Serializable for mocking incoming models from a remote data source. If the .g.dart files are missing, run:
+The project uses Json Serializable for receiving incoming models from a mocked out remote data source. If the .g.dart files are missing, run:
 
 ```bash
 dart run build_runner watch --delete-conflicting-outputs
