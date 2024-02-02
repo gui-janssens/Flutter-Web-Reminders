@@ -4,6 +4,11 @@ import 'package:codelitt_calendar/src/utils/utlls.dart';
 import 'package:oxidized/oxidized.dart';
 
 class ReminderRemoteDataSource {
+  /* 
+  Data sources are responsible for wrapping resources from the remote data source into the application, 
+  and are reponsible for converting incoming data into models.
+   */
+
   final ApiService apiService;
 
   ReminderRemoteDataSource(this.apiService);

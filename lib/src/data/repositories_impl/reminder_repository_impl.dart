@@ -4,6 +4,11 @@ import 'package:codelitt_calendar/src/utils/app_error.dart';
 import 'package:oxidized/oxidized.dart';
 
 class ReminderRepositoryImpl implements ReminderRepository {
+  /* 
+    Repositories are responsible for converting models int domain entities.
+    From this point inwards the layers, entities are the only source of data.
+  */
+
   final ReminderRemoteDataSource remoteDataSource;
 
   ReminderRepositoryImpl(this.remoteDataSource);

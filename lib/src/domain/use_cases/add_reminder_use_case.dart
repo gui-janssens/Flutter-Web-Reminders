@@ -3,6 +3,11 @@ import 'package:codelitt_calendar/src/utils/utlls.dart';
 import 'package:oxidized/oxidized.dart';
 
 class AddReminderUseCase {
+  /* 
+  Use cases are self explanatory -> they use the repository contract to implement use cases 
+  of the application, being well aware of business rules.
+   */
+
   final ReminderRepository repository;
 
   AddReminderUseCase(this.repository);

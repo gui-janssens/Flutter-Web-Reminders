@@ -3,6 +3,10 @@ import 'package:codelitt_calendar/src/utils/utlls.dart';
 import 'package:oxidized/oxidized.dart';
 
 abstract class ReminderRepository {
+  /* 
+  Abstract classes are like contracts that define the methods that must be implemented.
+  The dependants on contracts don't know anything about the implementation itself.
+  */
   Future<Result<List<Reminder>, AppError>> getReminders();
 
   Future<Result<Reminder, AppError>> addReminder(Map<String, dynamic> payload);
